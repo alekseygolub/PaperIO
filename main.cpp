@@ -1,9 +1,10 @@
 #include<bits/stdc++.h>
+using namespace std;
 
 #include "./nlohmann/json.hpp"
-
-using namespace std;
 using namespace nlohmann;
+
+#include "./constants.hpp"
 
 mt19937 rnd((int)time(NULL));
 
@@ -14,7 +15,6 @@ mt19937 rnd((int)time(NULL));
 #define pb push_back
 #define pii pair<int, int>
 #define len(x) (long long)x.size()
-const long long INF = (int)numeric_limits<int>::max() >> 1;
 
 typedef long double ld;
 
@@ -36,29 +36,17 @@ bool cmin(A &a, const B &b) {
     return false;
 }
 
-double STAT_SUM = 0;
-int STAT_TICK = 0;
-
 int MAXLAYER_ = 10;
-int MAXTICK = 2500;
 
 int maxPathLen = 15;
 int maxCandidateCount = 5;
 
-const ld mulct_standard = 1.0;
-const ld mulct_special = 0.5;
-
 ld mulct = mulct_standard;
-const int limit_change_mulct = 5;
+
 int timer_mulct = 0;
 
 int n, m, speed, width, n_big, m_big;
 int curDir = -1;
-
-const vector<string> commands = {"left", "right", "up", "down"};
-map<string, int> Directions;
-const vector<pii> commandsDir = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
-const vector<int> signs = {-1, 1};
 
 int TICK = 0;
 
@@ -178,7 +166,6 @@ void init_game(json state) {
     safe_area.resize(n_big, vector<char>(m_big));
     rate_area.resize(n_big, vector<ld>(m_big));
     block_area.resize(4, vector<ld>(4));
-    for (int i = 0; i < len(commands); i++) Directions[commands[i]] = i;
 }
 
 int dist_to_territory(int playerID, int territoryID, pii pos = {-1, -1}) {
@@ -480,7 +467,7 @@ void init_tick(json state) {
         }
         if (P.back().fast && P.back().slow) P.back().fast = P.back().slow = 0;
 
-        if (!p["direction"].is_null()) P.back().D = Directions[(p["direction"])];  
+        if (!p["direction"].is_null()) P.back().D = Directions.at(p["direction"]);  
         for (auto &coord: p["territory"]) {
             int x = coord[0], y = coord[1];
             g_big[x / width][y / width] = len(P);
@@ -500,7 +487,6 @@ void init_tick(json state) {
         else bonuses[(int)p["position"][0] / width][(int)p["position"][1] / width] = -1000;
     }
     TICK = state["params"]["tick_num"];
-    if (TICK > MAXTICK) MAXTICK += 500;
     if (TICK > 50) {
         int cnt = 0;
         for (int i = 0; i < len(P); i++) if (i != ID && P[i].D != -1) cnt++;

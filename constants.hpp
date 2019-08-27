@@ -1,0 +1,9 @@
+const long double mulct_standard = 1.0;
+const long double mulct_special = 0.5;
+const int limit_change_mulct = 5;
+const vector<string> commands = {"left", "right", "up", "down"};
+const unordered_map<string, int> Directions = {{"left", 0}, {"right", 1}, {"up", 2}, {"down", 3}};
+const vector<pair<int, int>> commandsDir = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
+const vector<int> signs = {-1, 1};
+const long long INF = (int)numeric_limits<int>::max() >> 1;
+const int MAXTICK = 2500;
