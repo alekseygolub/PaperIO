@@ -1,12 +1,6 @@
 #include<bits/stdc++.h>
-// #pragma GCC optimize("Ofast")
-// #pragma GCC optimize("march=native")
-// #pragma GCC optimize("unroll-loops")
-// #pragma GCC optimize("unroll-all-loops")
 
-#ifndef LOCAL
 #include "./nlohmann/json.hpp"
-#endif
 
 using namespace std;
 using namespace nlohmann;
@@ -20,7 +14,6 @@ mt19937 rnd((int)time(NULL));
 #define pb push_back
 #define pii pair<int, int>
 #define len(x) (long long)x.size()
-// #define int long long
 const long long INF = (int)numeric_limits<int>::max() >> 1;
 
 typedef long double ld;
@@ -45,7 +38,6 @@ bool cmin(A &a, const B &b) {
 
 double STAT_SUM = 0;
 int STAT_TICK = 0;
-
 
 int MAXLAYER_ = 10;
 int MAXTICK = 2500;
@@ -129,14 +121,6 @@ int ID = 0;
 int dist(pii a, pii b) {
     return abs(a.F - b.F) + abs(a.S - b.S);
 }
-
-// int fastDist(int LEN) {
-
-// }
-
-// int slowDist(int LEN) {
-
-// }
 
 bool check_coord(int x, int y) {
     if (x < 0 || x >= n_big || y < 0 || y >= m_big) return 0;
@@ -261,14 +245,6 @@ void paint_the_territory(vector<pii> &L, int playerID, int COLOR) {
         }
     }
     int rate = 0;
-    // bool flag = 0;
-    // for (int i = 0; i < n_big; i++) {
-    //     for (int j = 0; j < m_big; j++) {
-    //         if (my.count(new_g[i][j])) {
-    //             if (g_big[i][j] != playerID + 1) if (bonuses[i][j] == 51) flag |= 1;
-    //         }
-    //     }
-    // }
     for (int i = 0; i < n_big; i++) {
         for (int j = 0; j < m_big; j++) {
             if (my.count(new_g[i][j])) {
@@ -472,62 +448,16 @@ int rate_position(int x, int y) {
         else if (D <= 10) rate -= 7; 
     }
     rate /= M_PI;
-    // cerr << rate << "\n";
     return rate;
 }
 
 void calc_rate_area() {
     cleararr(rate_area, (ld)0.0);
-    // cleararr(block_area, (ld)0.0);
-    // int N = 8;
-    // for (int i = 0; i < n_big; i++) {
-    //     for (int j = 0; j < m_big; j++) {
-    //         block_area[i / N][j / N] += rate_cell(i, j);
-    //     }
-    // }
-    // for (int i = 0; i < len(P); i++) {
-    //     if (i == ID) continue;
-    //     block_area[P[i].x_big / N][P[i].y_big / N] -= 40;
-    // }
-    // for (int i = 0; i < 4; i++) {
-    //     for (int j = 0; j < 4; j++) {
-            
-    //         ld num = N * N;
-    //         if (i == 3 || j == 3) num = (n_big % N) * N;
-    //         if (i == 3 && j == 3) num = (n_big % N) * (n_big % N);
-            
-    //         block_area[i][j] /= num;
-    //         block_area[i][j] *= 50;
-    //     }
-    // }
-    // vector<vector<ld>> ADD(4, vector<ld>(4)); 
-    // for (int i = 0; i < 4; i++) {
-    //     for (int j = 0; j < 4; j++) {
-    //         for (auto dx: commandsDir) {
-    //             int X = i + dx.F, Y = j + dx.S;
-    //             if (X < 0 || X >= 4 || Y < 0 || Y >= 4) continue;
-    //             ADD[i][j] += block_area[X][Y] * 0.1;
-    //         }
-    //     }
-    // }
-    // for (int i = 0; i < 4; i++) {
-    //     for (int j = 0; j < 4; j++) {
-    //         block_area[i][j] += ADD[i][j];
-    //         block_area[i][j] /= 1.5;  
-    //     }
-    // }
-    // for (int i = 0; i < n_big; i++) {
-    //     for (int j = 0; j < m_big; j++) {
-    //         rate_area[i][j] = block_area[i / N][j / N];
-    //     }
-    // }
     for (int i = 0; i < n_big; i++) {
         for (int j = 0; j < m_big; j++) {
             rate_area[i][j] = rate_position(i, j);
         }
     }
-    // SHOW(rate_area);
-    // SHOW(block_area);
 }
 
 void init_tick(json state) {
@@ -581,32 +511,6 @@ void init_tick(json state) {
     }
     calc_safe_area();
     calc_rate_area();
-    // SHOW(block_area);
-    // cerr << ID + 1 << "\n";
-    // for (int i = 0; i < n_big; i++) {
-    //     for (int j = 0; j < m_big; j++) {
-    //         bool flag = 0;
-    //         for (int p = 0; p < len(P); p++) {
-    //             if (pii{P[p].x_big, P[p].y_big} == pii{i, j}) {
-    //                 cerr << char('a' + p) << "";
-    //                 flag = 1;
-    //             }
-    //         }
-    //         if (flag) continue;
-    //         if (lines_big[i][j]) cerr << lines_big[i][j] + 2 << ""; 
-    //         else if (g_big[i][j]) cerr << g_big[i][j] << "";
-    //         else cerr << "0";
-    //     }
-    //     cerr << "\n";
-    // }
-    // cerr << "\n";
-    // for (int i = 0; i < n_big; i++) {
-    //     for (int j = 0; j < m_big; j++) {
-    //         cerr << safe_area[i][j] % 100;
-    //     }
-    //     cerr << "\n";
-    // }
-    // cerr << "\n";
 }
 
 int calc_saw(int x, int y, int DIR) {
@@ -643,7 +547,6 @@ int calcRate(vector<pii> &L, int last_x, int last_y, int DIR) {
             }
         }
     }
-
     int rate = 0;
     for (int i = 0; i < n_big; i++) {
         for (int j = 0; j < m_big; j++) {
@@ -658,7 +561,6 @@ int calcRate(vector<pii> &L, int last_x, int last_y, int DIR) {
             }
         }
     }
-    // cerr << rate_area[last_x][last_y] - LEN << "\n";
     int RES = rate - int(mulct * (ld)LEN) + rate_position(last_x, last_y);
     return RES;
 }
@@ -691,12 +593,8 @@ pii get_path(int x, int y, vector<vector<char>> localused, int layer, int C, int
             }
         }
 
-    if (flag) {
-        return {0, 0};
-    } 
-    if (g_big[x][y] == ID + 1) {
-        return {calcRate(curpath, x, y, DIR), 0};
-    }
+    if (flag) return {0, 0}; 
+    if (g_big[x][y] == ID + 1) return {calcRate(curpath, x, y, DIR), 0};
 
     for (int l = 1; l < maxPathLen; l++) {
         int curlen = layer + l;
@@ -719,7 +617,6 @@ pii get_path(int x, int y, vector<vector<char>> localused, int layer, int C, int
             else if (P[p].slow) curlen = curlen * 6 / 10 + bool((curlen * 6) % 10);
             else if (P[ID].fast) curlen = curlen * 5 / 6 + bool((curlen * 5) % 6);
             else if (P[ID].slow) curlen = curlen * 10 / 6 + bool((curlen * 10) % 6);
-
             //
             for (int a = -curlen; a <= curlen; a++) {
                 for (auto S: signs) {
@@ -970,16 +867,11 @@ signed main() {
     cout.tie(0);
     srand(time(NULL));
     string input_string, input_type;
-    #ifdef LOCAL
-        ofstream LOG("/Users/alekseygolub/Documents/code/aicup/miniaicups/paperio/local_runner/LOG");
-    #endif
-    // freopen("/Users/alekseygolub/Documents/code/aicup/miniaicups/paperio/local_runner/LOG", "r", stdin);
+
     while (true) {
         input_string.clear();
         getline(cin, input_string); 
-        #ifdef LOCAL
-            LOG << input_string << "\n";
-        #endif
+
         long long START = clock();
         json state = json::parse(input_string);
 
@@ -1037,7 +929,6 @@ signed main() {
             }
         }
         deg += to_string(step.S) + ";";
-        // cerr << deg << "\n";
         if (timer_mulct >= limit_change_mulct) mulct = mulct_standard;
         json res;
         curDir = step.S;
